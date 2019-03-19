@@ -11,7 +11,7 @@
 	<div class="main main-raised">
 		<div class="container">
 			<div class="section">
-				<h2 class="title text-center">Resgistrar Nuevo Producto</h2>
+				<h2 class="title text-center">Editar Producto Seleccionado</h2>
 				<div class="team">
 					<form action="{{ url('/admin/products') }}" method="post">
 						{{ csrf_field() }}
@@ -19,25 +19,26 @@
 							<div class="col-sm-6">
 								<div class="form-group bmd-form-group">
 									<label class="bmd-label-floating">Nombre del producto</label>
-									<input type="text" class="form-control" name="name">
+									<input type="text" class="form-control" name="name" value="{{ $product->name }}">
 								</div>
 							</div>
 							<div class="col-sm-6">
 								<div class="form-group bmd-form-group">
 									<label class="bmd-label-floating">Precio del producto</label>
-									<input type="number" class="form-control" name="price">
+									<input type="number" step="0.01" class="form-control" name="price" value="{{ $product->price }}">
 								</div>
 							</div>
 						</div>
 						<div class="form-group bmd-form-group">
 							<label class="bmd-label-floating">Descripción corta</label>
-							<input type="text" class="form-control" name="description">
+							<input type="text" class="form-control" name="description" value="{{ $product->description }}">
 						</div>
 						<div class="form-group  bmd-form-group">
 							<label class="bmd-label-floating">Descripción extensa del producto</label>
-							<textarea class="form-control" id="long_description" rows="3" name="long_description"></textarea>
+							<textarea class="form-control" id="long_description" rows="3" name="long_description">{{ $product->long_description }}</textarea>
 						</div>
-						<button class="btn btn-primary ">Nuevo Producto</button>
+						<button class="btn btn-primary ">Guardar Cambios</button>
+						<a href="{{ url('/admin/products') }}" class="btn">Cancelar</a>
 					</form>
 				</div>
 			</div>

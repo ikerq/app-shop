@@ -13,6 +13,7 @@
 			<div class="section text-center">
 				<h2 class="title">Listado de Productos</h2>
 				<div class="team">
+					<a href="{{ url('/admin/products/create') }}" class="btn btn-primary btn-round">Nuevo Producto</a>
 					<div class="row">
 						<table class="table">
 							<thead>
@@ -30,16 +31,16 @@
 								<tr>
 									<td  class="text-center">{{ $product->id }}</td>
 									<td>{{ $product->name }}</td>
-									<td>{{ $product->description }}desc prueba</td>
-									<td>{{ $product->category->name }}cat prueba</td>
+									<td>{{ $product->description }}</td>
+									<td>{{ $product->category ? $product->category->name : 'General' }}</td>
 									<td  class="text-right">&euro; {{ $product->price }}</td>
 									<td  class="text-right">
 										<button type="button" rel="tooltip" title="ver" class="btn btn-info btn-link  btn-sm">
 											<i class="fa fa-info"></i>
 										</button>
-										<button type="button" rel="tooltip" title="ver" class="btn btn-success btn-link btn-sm">
+										<a href="{{ url('/admin/products/'.$product->id.'/edit') }}" rel="tooltip" title="Editar" class="btn btn-success btn-link btn-sm">
 											<i class="fa fa-pencil-square-o"></i>
-										</button>
+										</a>
 										<button type="button" rel="tooltip" title="ver" class="btn btn-danger btn-link btn-sm">
 											<i class="fa fa-times"></i>
 										</button>
@@ -47,7 +48,8 @@
 								</tr>
 								@endforeach
 							</tbody>
-						</div>
+						</table>
+						{{ $products->links() }}
 					</div>
 				</div>
 			</div>
