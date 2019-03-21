@@ -35,15 +35,19 @@
 									<td>{{ $product->category ? $product->category->name : 'General' }}</td>
 									<td  class="text-right">&euro; {{ $product->price }}</td>
 									<td  class="text-right">
-										<button type="button" rel="tooltip" title="ver" class="btn btn-info btn-link  btn-sm">
+									<form action="{{ url('/admin/products/'.$product->id) }}" method="post">
+											{{ csrf_field() }}
+											{{ method_field('DELETE') }}
+										<a href="#" rel="tooltip" title="ver" class="btn btn-info btn-link  btn-sm">
 											<i class="fa fa-info"></i>
-										</button>
+										</a>
 										<a href="{{ url('/admin/products/'.$product->id.'/edit') }}" rel="tooltip" title="Editar" class="btn btn-success btn-link btn-sm">
 											<i class="fa fa-pencil-square-o"></i>
 										</a>
-										<button type="button" rel="tooltip" title="ver" class="btn btn-danger btn-link btn-sm">
-											<i class="fa fa-times"></i>
-										</button>
+											<button type="submit" rel="tooltip" title="eliminar" class="btn btn-danger btn-link btn-sm">
+												<i class="fa fa-times"></i>
+											</button>
+										</form>
 									</td>
 								</tr>
 								@endforeach
