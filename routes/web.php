@@ -15,6 +15,12 @@ Route::middleware(['auth','admin'])->prefix('admin')->group(function(){
     Route::get('/products/{id}/edit','ProductController@edit'); //formulario editar
     Route::post('/products{id}/edit','ProductController@update'); //registrar edicion
     Route::delete('/products/{id}','ProductController@destroy'); //formulario eliminar
+
+
+    Route::get('/products/{id}/images','ImageController@index'); //listado
+    Route::post('/products/{id}/images','ImageController@store'); //registrar
+    Route::delete('/products/{id}/images','ImageController@destroy'); //eliminar
+
 });
 
 // PUT PATCH DELETE

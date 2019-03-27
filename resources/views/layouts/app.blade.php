@@ -22,7 +22,7 @@
 	<nav class="navbar navbar-transparent navbar-color-on-scroll fixed-top navbar-expand-lg" color-on-scroll="100" id="sectionsNav">
 		<div class="container">
 			<div class="navbar-translate">
-			<a class="navbar-brand" href="{{ url('/') }}'">App Shop</a>
+			<a class="navbar-brand" href="{{ url('/') }}">App Shop</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="sr-only">Toggle navigation</span>
 				<span class="navbar-toggler-icon"></span>
@@ -48,6 +48,9 @@
 						</a>
 
 						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+						@if(auth()->user()->admin)
+							<a class="dropdown-item" href="{{url('/admin/products')}}">Gestionar productos</a>
+						@endif
 							<a class="dropdown-item" href="{{ route('logout') }}"
 								onclick="event.preventDefault();
 												document.getElementById('logout-form').submit();">
