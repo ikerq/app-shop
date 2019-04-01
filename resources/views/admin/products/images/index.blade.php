@@ -26,7 +26,21 @@
 							<div class="card">
 								<div class="card-body">
 									<img src="{{ $image->url }}" width="250">
-									<button type="submit" class="btn btn-sm btn-danger btn-round">Eliminar imagen</button>
+									<form action="" method="post">
+										{{ csrf_field() }}
+										{{ method_field('DELETE') }}
+										<input type="hidden" name="image_id" value="{{ $image->id }}">
+										<button type="submit" class="btn btn-sm btn-danger btn-round">Eliminar imagen</button>
+										@if ($image->featured)
+										<button type="button"  class="btn btn-sm btn-info btn-fab btn-fab-mini btn-round" rel="tooltip" title="Imagen destacada actualmente">
+											<i class="fa fa-heart"></i>
+										</button>
+										@else
+										<a href="{{ url('/admin/products/'.$product->id.'/images/select/'.$image->id) }}" class="btn btn-sm btn-primary btn-fab btn-fab-mini btn-round">
+											<i class="fa fa-heart"></i>
+										</a>
+										@endif
+									</form>
 								</div>
 							</div>
 						</div>
