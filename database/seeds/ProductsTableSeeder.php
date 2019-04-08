@@ -20,13 +20,13 @@ class ProductsTableSeeder extends Seeder
         // factory(ProductImage::class, 200)->create();
 
         //Crear factories de forma relacional
-        $categories = factory(Category::class, 5)->create();//crea las categorias y las persiste en BD
+        $categories = factory(Category::class, 4)->create();//crea las categorias y las persiste en BD
         $categories->each(function($category){//iteramos en la categoria
-            $products = factory(Product::class, 20)->make();//Crea 20 productos pero no los persiste
+            $products = factory(Product::class, 5)->make();//Crea 20 productos pero no los persiste
             $category->products()->saveMany($products);//asigna a cada uno de los 20 productos la categoria actual del each y los guarda en BD  
 
             $products->each(function($p){// iteramos en los productos
-                $images = factory(ProductImage::class, 5)->make();//Crea 5 imagenes pero no las persiste 
+                $images = factory(ProductImage::class, 3)->make();//Crea 5 imagenes pero no las persiste 
                 $p->images()->saveMany($images);//Asigna a cada una de las 5 imagenes el producto actual del each y los guarda en BD
             });
         });
