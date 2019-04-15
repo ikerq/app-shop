@@ -8,6 +8,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/products/{id}', 'ProductController@show'); 
+Route::get('/categories/{category}', 'CategoryController@show'); 
 
 Route::post('/cart','CartDetailController@store');
 Route::delete('/cart','CartDetailController@destroy');
@@ -19,7 +20,7 @@ Route::middleware(['auth','admin'])->prefix('admin')->namespace('Admin')->group(
     Route::get('/products/create','ProductController@create'); //formulario crear
     Route::post('/products','ProductController@store'); //registrar
     Route::get('/products/{id}/edit','ProductController@edit'); //formulario editar
-    Route::post('/products{id}/edit','ProductController@update'); //registrar edicion
+    Route::post('/products/{id}/edit','ProductController@update'); //registrar edicion
     Route::delete('/products/{id}','ProductController@destroy'); //formulario eliminar
 
 
@@ -27,6 +28,13 @@ Route::middleware(['auth','admin'])->prefix('admin')->namespace('Admin')->group(
     Route::post('/products/{id}/images','ImageController@store'); //registrar
     Route::delete('/products/{id}/images','ImageController@destroy'); //eliminar
     Route::get('/products/{id}/images/select/{image}','ImageController@select'); //destacar
+
+    Route::get('/categories','CategoryController@index'); //listado
+    Route::get('/categories/create','CategoryController@create'); //formulario crear
+    Route::post('/categories','CategoryController@store'); //registrar
+    Route::get('/categories/{category}/edit','CategoryController@edit'); //formulario editar
+    Route::post('/categories/{category}/edit','CategoryController@update'); //registrar edicion
+    Route::delete('/categories/{category}','CategoryController@destroy'); //formulario eliminar
 });
 
 // PUT PATCH DELETE

@@ -51,10 +51,13 @@
 						@if(auth()->user()->admin)
 							<a class="dropdown-item" href="{{url('/admin/products')}}">Gestionar productos</a>
 						@endif
+						@if(auth()->user()->admin)
+							<a class="dropdown-item" href="{{url('/admin/categories')}}">Gestionar categorías</a>
+						@endif
 							<a class="dropdown-item" href="{{ route('logout') }}"
 								onclick="event.preventDefault();
 												document.getElementById('logout-form').submit();">
-								{{ __('Desconectarse') }}
+								{{ __('Cerrar sesión') }}
 							</a>
 
 							<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">

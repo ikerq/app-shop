@@ -21,7 +21,7 @@
 						</ul>
 					</div>
 				@endif
-					<form action="{{ url('/admin/products') }}" method="post">
+					<form action="{{ url('/admin/products/'.$product->id.'/edit') }}" method="post">
 						{{ csrf_field() }}
 						<div class="row">
 							<div class="col-sm-6">
@@ -37,9 +37,24 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group bmd-form-group">
-							<label class="bmd-label-floating">Descripción corta</label>
-							<input type="text" class="form-control" name="description" value="{{ old('description',$product->description) }}">
+						<div class="row">
+							<div class="col-sm-6">
+								<div class="form-group bmd-form-group">
+									<label class="control-label bmd-label-static">Descripción corta</label>
+									<input type="text" class="form-control" name="description" value="{{ old('description') }}">
+								</div>
+							</div>
+							<div class="col-sm-6">
+								<div class="form-group bmd-form-group">
+									<label class="control-label bmd-label-static">Categoría del producto</label>
+									<select class="form-control selectpicker" data-style="btn btn-link"  name="category_id">
+										<option value="0">General</option>
+									@foreach($categories as $category)
+										<option value="{{ $category->id }}" @if($category->id == old('category_id', $product->category_id)) selected @endif>{{ $category->name }}</option>
+									@endforeach
+									</select>
+								</div>
+							</div>
 						</div>
 						<div class="form-group  bmd-form-group">
 							<label class="bmd-label-floating">Descripción extensa del producto</label>
