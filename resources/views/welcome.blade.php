@@ -9,6 +9,45 @@
 		.team .row .col-md-4 {
 			margin-bottom: 1em;
 		}
+		.tt-query {
+		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+			-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+				box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+		}
+
+		.tt-hint {
+		color: #999
+		}
+
+		.tt-menu {    /* used to be tt-dropdown-menu in older versions */
+		width: 222px;
+		margin-top: 4px;
+		padding: 4px 0;
+		background-color: #fff;
+		border: 1px solid #ccc;
+		border: 1px solid rgba(0, 0, 0, 0.2);
+		-webkit-border-radius: 4px;
+			-moz-border-radius: 4px;
+				border-radius: 4px;
+		-webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+			-moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+				box-shadow: 0 5px 10px rgba(0,0,0,.2);
+		}
+
+		.tt-suggestion {
+		padding: 3px 20px;
+		line-height: 24px;
+		}
+
+		.tt-suggestion.tt-cursor,.tt-suggestion:hover {
+		color: #fff;
+		background-color: #0097cf;
+
+		}
+
+		.tt-suggestion p {
+		margin: 0;
+		}
 	</style>
 @endsection
 
@@ -77,6 +116,12 @@
 			</div>
 			<div class="section text-center">
 				<h2 class="title">Visita nuestras categorías</h2>
+				<form class="form-inline" method="get" action="{{ url('/search') }}">
+					<input type="text" name="query" id="search" placeholder="¿Qué producto buscas?" class="form-control">
+					<button type="submit" class="btn btn-primary btn-round">
+						<i class="material-icons">search</i>
+					</button>
+				</form>
 				<div class="team">
 					<div class="row">
 						@foreach ($categories as $category)
@@ -144,4 +189,28 @@
 	</div>
 	
 @include('includes.footer')
+@endsection
+@section('scripts')
+	<script src="{{asset('/js/typeahead.bundle.min.js')}}"></script>
+	<script>
+		$(function(){
+			//
+			var products = new Bloodhound({
+				datumTokenizer: Bloodhound.tokenizers.whitespace,
+				queryTokenizer: Bloodhound.tokenizers.whitespace,
+				// `states` is an array of state names defined in "The Basics"
+				prefetch: '{{ url("/products/json") }}'
+			});
+			//inicializar typeahead sobre nuestro input  de búsqueda
+			$('#search').typeahead({
+				hint: true,
+				hightlight: true,
+				minLength: 1
+			}, {
+				name: 'products',
+				source: products
+			})
+
+		})
+	</script>
 @endsection
