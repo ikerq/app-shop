@@ -20,8 +20,9 @@
 								<thead>
 									<tr>
 										<th scope="col" class="text-center">Nombre</th>
-										<th scope="col" class="w-25 text-center">Descripción</th>
-										<th scope="col" class="text-right">Opciones</th>
+										<th scope="col" class="text-center">Descripción</th>
+										<th>Imagen</th>
+										<th scope="col">Opciones</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -29,7 +30,10 @@
 									<tr scope="row">
 										<td>{{ $category->name }}</td>
 										<td>{{ $category->description }}</td>
-										<td  class="text-right">
+										<td>
+											<img src="{{ asset($category->featured_image_url) }}" height="50">
+										</td>
+										<td>
 											<form action="{{ url('/admin/categories/'.$category->id) }}" method="post">
 												{{ csrf_field() }}
 												{{ method_field('DELETE') }}

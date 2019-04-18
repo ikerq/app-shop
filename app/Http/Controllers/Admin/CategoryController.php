@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Category;
+use File;
 
 class CategoryController extends Controller
 {
@@ -20,8 +21,22 @@ class CategoryController extends Controller
         
         $this->validate($request, Category::$rules, Category::$messages);
 
-        //registrar nueva categopría en la BD
-        Category::create($request->all()); // mass assignment --> with fillable from model Category
+        //registrar nueva categoría en la BD
+        $category = Category::create($request->only('name','description')); // mass assignment --> with fillable from model Category
+
+        if($request->hasFile('image')){
+            //Guardar la img en nuestro proyecto
+            $file = $request->file('image');
+            $path = public_path() . '/images/categories';
+            $fileName = uniqid() . '-' . $file->getClientOriginalName();
+            $moved = $file->move($path, $fileName);
+
+            //crear 1 registro en la tabla product_images
+            if ($moved){
+                $category->image = $fileName;
+                $category->save(); //INSERT
+            }
+        }
 
         return redirect('/admin/categories');
     }
@@ -33,7 +48,26 @@ class CategoryController extends Controller
         
         $this->validate($request, Category::$rules, Category::$messages);
         
-        $category->update($request->all());
+        $category->update($request->only('name', 'description'));
+
+        if($request->hasFile('image')){
+            //Guardar la img en nuestro proyecto
+            $file = $request->file('image');
+            $path = public_path() . '/images/categories';
+            $fileName = uniqid() . '-' . $file->getClientOriginalName();
+            $moved = $file->move($path, $fileName);
+
+            //crear 1 registro en la tabla product_images
+            if ($moved){
+                $previousPath = $path . '/' .$category->image;
+
+                $category->image = $fileName;
+                $saved = $category->save(); //UPDATE
+                
+                if($saved)
+                    File::delete($previousPath);
+            }
+        }
 
         return redirect('/admin/categories');
     }

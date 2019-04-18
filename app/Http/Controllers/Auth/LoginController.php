@@ -36,4 +36,9 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    //Se sobre escribe el username para usar el username, mas no el email como lo usa el trait AuthenticatesUsers
+    public function username()
+    {
+        return 'username';
+    }
 }
