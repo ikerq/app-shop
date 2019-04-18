@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Product;
+use App\CartDetail;
 
 class ProductController extends Controller
 {
@@ -11,6 +12,7 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
         $images = $product->images;
+        $productExists = false;
         
         $imagesLeft = collect();
         $imagesRight = collect();
@@ -20,6 +22,7 @@ class ProductController extends Controller
             else    
                 $imagesRight->push($image);
         }
-        return view('products.show')->with(compact('product','imagesLeft','imagesRight'));
+
+        return view('products.show')->with(compact('product','imagesLeft','imagesRight','productExists'));
     }
 }

@@ -36,4 +36,29 @@ class Product extends Model
             return $this->category->name;
         return 'General';
     }
+
+    public function getProductExistsAttribute($product_id = null){
+        $productExists = false;
+        
+        if($product_id == null){
+            $product_id = $this->id;
+        }
+
+        if( auth()->check() && 
+            auth()->user()->cart->status == 'Active')
+        {
+            $details = CartDetail::where('cart_id',auth()->user()->cart->id)->get();
+            if($details->count() > 0)
+            {
+                foreach($details as $detail){
+                    if($detail->product_id == $product_id){
+                        $productExists = true;
+                        break;
+                    }
+                }
+            }
+        }
+        return $productExists;
+    }
+
 }

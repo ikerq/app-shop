@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\CartDetail;
+use App\Product;
 
 class CartDetailController extends Controller
 {
@@ -12,10 +13,17 @@ class CartDetailController extends Controller
     }
     public function store(Request $request)
     {
+        $product = new Product();
+        if($product->getProductExistsAttribute($request->product_id)){
+            $notification = 'El producto ya ha sido cargado en el carrito de compras.';
+            return redirect("products/$request->product_id")->with(compact('notification'));
+        }
+
         $cartDetail = new CartDetail();
         $cartDetail->cart_id = auth()->user()->cart->id;
         $cartDetail->product_id = $request->product_id;
         $cartDetail->quantity = $request->quantity;
+        $cartDetail->price = $request->product_price;
         $cartDetail->save();
 
         $notification = 'El producto se ha cargado a tu carrito de compras exitosamente!';

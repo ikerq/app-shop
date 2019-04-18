@@ -20,6 +20,11 @@
 							{{ session('notification') }}
 						</div>
 					@endif
+					@if (session('error'))
+						<div class="alert alert-danger" role="alert">
+							{{ session('error') }}
+						</div>
+					@endif
 						<div class="name">
 							<h3 class="title">{{ $product->name }}</h3>
 							<h6>{{ isset($product->category->name) ? $product->category->name : '' }}</h6>
@@ -31,9 +36,19 @@
 				<p> {{ $product->long_description }}</p>
 			</div>
 			<div class="text-center">
+			@if($product->product_exists)
+				<a href="{{ url('/home') }}" class="btn btn-primary btn-round">
+					<i class="material-icons">shopping_cart</i> Ver en el carrito de compras
+				</a>
+			@elseif(auth()->check())
 				<button class="btn btn-primary btn-round" data-toggle="modal" data-target="#modalAddToCart">
 					<i class="material-icons">add</i> Añadir al carrito de compras
 				</button>
+			@else
+				<a href="{{ url('/login?redirect_to='.url()->current()) }}" class="btn btn-primary btn-round">
+					<i class="material-icons">add</i> Añadir al carrito de compras
+				</a>
+			@endif
 			</div>
 			<div class="tab-content tab-space">
 				<div class="tab-pane active text-center gallery" id="studio">
@@ -93,6 +108,7 @@
 			<form action="{{ url('/cart') }}" method="post">
 				{{ csrf_field() }}
 				<input type="hidden" name="product_id" value="{{ $product->id }}">
+				<input type="hidden" name="product_price" value="{{ $product->price }}">
 				<div class="modal-body">
 					<input type="number" name="quantity" value="1" class="form-control">
 				</div>
