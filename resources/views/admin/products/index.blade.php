@@ -24,18 +24,20 @@
 										<th scope="col" class="w-25 text-center">Descripción</th>
 										<th scope="col" class="text-center">Categoría</th>
 										<th scope="col" class="text-right">Precio</th>
+										<th scope="col" class="text-center">Stock</th>
 										<th scope="col" class="text-right">Opciones</th>
 									</tr>
 								</thead>
 								<tbody>
 								@foreach($products as $product)
 									<tr scope="row">
-										<td  class="text-center">{{ $product->id }}</td>
+										<td  class="text-center productId">{{ $product->id }}</td>
 										<td>{{ $product->name }}</td>
 										<td>{{ $product->description }}</td>
 										<td>{{ $product->category_name}}</td>
-										<td  class="text-right">&euro; {{ $product->price }}</td>
-										<td  class="text-right">
+										<td class="text-right">&euro; {{ number_format($product->price, 2) }}</td>
+										<td class="stock">{{ $product->stock }}</td>
+										<td class="text-right">
 											<form action="{{ url('/admin/products/'.$product->id) }}" method="post">
 												{{ csrf_field() }}
 												{{ method_field('DELETE') }}
@@ -48,7 +50,10 @@
 												<a href="{{ url('/admin/products/'.$product->id.'/images') }}" rel="tooltip" title="Imágenes del producto" class="btn btn-warning btn-link btn-sm">
 													<i class="fa fa-image"></i>
 												</a>
-												<button type="submit" rel="tooltip" title="eliminar" class="btn btn-danger btn-link btn-sm">
+												<button type="button" rel="tooltip" title="Editar stock" class="btn btn-primary btn-link btn-sm btn-stock">
+													<i class="fa fa-sort-numeric-desc"></i>
+												</button>
+												<button type="submit" rel="tooltip" title="Eliminar" class="btn btn-danger btn-link btn-sm">
 													<i class="fa fa-times"></i>
 												</button>
 											</form>
@@ -64,5 +69,44 @@
 			</div>
 		</div>
 	</div>
+	<!-- Modal -->
+	<div class="modal fade" id="modalEditStock" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Editar la cantidad del stock del producto</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<form action="{{ url('admin/products/stock') }}" method="post">
+					{{ csrf_field() }}
+					<input type="hidden" name="product_id" id="product_id" value="">
+					<div class="modal-body">
+						<input type="number" name="stock" id="stock" value="" class="form-control">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+						<button type="submit" class="btn btn-primary">Editar stock</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 @include('includes.footer')
+@endsection
+@section('scripts')
+<script>
+$(function(){
+	$('.btn-stock').on('click', function(){
+		
+		var productId = $(this).closest('tr').find('.productId')[0].innerHTML;
+		var stock = $(this).closest('tr').find('.stock')[0].innerHTML;
+
+		$('#modalEditStock #product_id').val(productId);
+		$('#modalEditStock #stock').val(stock);
+		$('#modalEditStock').modal('show');
+	});
+});
+</script>
 @endsection

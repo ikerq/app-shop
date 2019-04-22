@@ -40,6 +40,10 @@
 				<a href="{{ url('/home') }}" class="btn btn-primary btn-round">
 					<i class="material-icons">shopping_cart</i> Ver en el carrito de compras
 				</a>
+			@elseif($product->unavailable)
+				<button class="btn btn-primary btn-round" disabled>
+					<i class="material-icons">domain_disabled</i> Agotado
+				</button>
 			@elseif(auth()->check())
 				<button class="btn btn-primary btn-round" data-toggle="modal" data-target="#modalAddToCart">
 					<i class="material-icons">add</i> Añadir al carrito de compras

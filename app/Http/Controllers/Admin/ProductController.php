@@ -88,4 +88,12 @@ class ProductController extends Controller
 
         return back();//--> return a la pagina anterior
     }
+    public function updateStock(Request $request){
+        
+        $product = Product::find($request->product_id);
+        $product->stock = $request->stock;
+        $product->save();//UPDATE
+
+        return back();
+    }
 }

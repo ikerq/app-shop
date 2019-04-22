@@ -13,6 +13,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/products/{id}', 'ProductController@show'); 
 Route::get('/categories/{category}', 'CategoryController@show'); 
 
+Route::post('/cart','CartDetailController@store');
+Route::delete('/cart','CartDetailController@destroy');
 
 Route::post('/cart','CartDetailController@store');
 Route::delete('/cart','CartDetailController@destroy');
@@ -26,7 +28,7 @@ Route::middleware(['auth','admin'])->prefix('admin')->namespace('Admin')->group(
     Route::get('/products/{id}/edit','ProductController@edit'); //formulario editar
     Route::post('/products/{id}/edit','ProductController@update'); //registrar edicion
     Route::delete('/products/{id}','ProductController@destroy'); //formulario eliminar
-
+    Route::post('/products/stock','ProductController@updateStock'); //actualizar Stock
 
     Route::get('/products/{id}/images','ImageController@index'); //listado
     Route::post('/products/{id}/images','ImageController@store'); //registrar

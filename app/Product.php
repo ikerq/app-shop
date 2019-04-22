@@ -61,4 +61,10 @@ class Product extends Model
         return $productExists;
     }
 
+    public function getUnavailableAttribute()
+    {
+        $unavailable = ($this->stock <= 0) ? true : false;
+        return $unavailable;
+    }
+
 }
